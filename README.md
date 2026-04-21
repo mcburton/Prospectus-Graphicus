@@ -45,22 +45,29 @@ just install          # cargo install --path . --locked
 
 ## Configure
 
-1. Register an Azure app — see [`docs/azure-app-registration.md`](docs/azure-app-registration.md).
-2. Create `~/.config/prospectus/config.toml`:
+The default config uses Microsoft's **Graph PowerShell** first-party public
+client ID, so you can sign in without registering your own Azure app.
+
+1. Create `~/.config/prospectus/config.toml`:
 
    ```toml
    [auth]
-   client_id = "00000000-0000-0000-0000-000000000000"
+   # Microsoft Graph PowerShell first-party public client ID.
+   client_id = "14d82eec-204b-4c2f-b7e8-296a70dab67e"
    tenant_id = "pitt.edu"
    ```
 
-3. Sign in:
+2. Sign in:
 
    ```sh
    prospectus auth login
    ```
 
-4. List mail:
+   The sign-in screen is branded "Microsoft Graph PowerShell" — that's
+   expected. See [`docs/azure-app-registration.md`](docs/azure-app-registration.md)
+   for tradeoffs and how to swap in your own Azure app registration later.
+
+3. List mail:
 
    ```sh
    prospectus mail list --top 10

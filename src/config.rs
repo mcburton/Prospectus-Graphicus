@@ -81,11 +81,20 @@ pub fn default_config_path() -> Result<PathBuf> {
     Ok(dirs.config_dir().join("config.toml"))
 }
 
-/// Template written to stdout on first-run helper (not used automatically).
+/// Template written when `prospectus` is run without a config file.
+///
+/// Defaults to the **Microsoft Graph PowerShell** first-party public client
+/// ID (`14d82eec-204b-4c2f-b7e8-296a70dab67e`). It is multi-tenant, supports
+/// the device code flow, and covers every scope Prospectus Graphicus
+/// requests. This lets the CLI work without registering a private Azure app.
+/// See `docs/azure-app-registration.md` for tradeoffs and how to swap in
+/// your own client ID for production use.
 pub const CONFIG_TEMPLATE: &str = r#"# Prospectus Graphicus configuration.
-# See docs/azure-app-registration.md for how to populate these.
+# See docs/azure-app-registration.md for details.
 
 [auth]
-client_id = "00000000-0000-0000-0000-000000000000"
+# Microsoft Graph PowerShell first-party public client ID.
+# Replace with your own Azure app registration when you have one.
+client_id = "14d82eec-204b-4c2f-b7e8-296a70dab67e"
 tenant_id = "pitt.edu"
 "#;
