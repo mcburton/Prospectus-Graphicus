@@ -37,16 +37,18 @@ More slices (`mail send`, `mail get`, `calendar events list`, …) to follow.
 
 ## Install
 
-Requires a recent stable Rust (pinned in `rust-toolchain.toml`).
+Requires Python 3.11+ and [`uv`](https://docs.astral.sh/uv/).
 
 ```sh
-just install          # cargo install --path . --locked
+uv tool install .
 ```
 
 ## Configure
 
-The default config uses Microsoft's **Graph PowerShell** first-party public
-client ID, so you can sign in without registering your own Azure app.
+The default config uses Microsoft's **Graph PowerShell / Microsoft Graph
+Command Line Tools** first-party public client ID. This avoids registering your
+own Azure app, but your tenant may still require admin consent or explicit app
+assignment.
 
 1. Create `~/.config/prospectus/config.toml`:
 
@@ -78,12 +80,9 @@ client ID, so you can sign in without registering your own Azure app.
 ## Development
 
 ```sh
-just            # list tasks
-just build
-just test
-just fmt
-just clippy
-just run -- mail list --top 5
+uv sync
+uv run prospectus mail list --top 5
+uv run python -m unittest discover -s tests_py
 ```
 
 ## License

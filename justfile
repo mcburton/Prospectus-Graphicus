@@ -3,28 +3,19 @@
 default:
     @just --list
 
-build:
-    cargo build
-
-build-release:
-    cargo build --release
-
-test:
-    cargo test --all-features
-
-fmt:
-    cargo fmt --all
-
-fmt-check:
-    cargo fmt --all -- --check
-
-clippy:
-    cargo clippy --all-targets --all-features -- -D warnings
-
-run *ARGS:
-    cargo run -- {{ARGS}}
+sync:
+    uv sync
 
 install:
-    cargo install --path . --locked
+    uv tool install .
 
-ci: fmt-check clippy test
+run *ARGS:
+    uv run prospectus {{ARGS}}
+
+check:
+    uv run python -m compileall prospectus_graphicus
+
+test:
+    uv run python -m unittest discover -s tests_py
+
+ci: check test

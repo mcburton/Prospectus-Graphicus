@@ -43,6 +43,13 @@ token goes into the OS keyring and you can use the other commands normally.
 
 ### When Path 1 fails
 
+If you see `AADSTS50105` ("administrator has configured the application ... to
+block users unless they are specifically granted access"), Pitt has enabled
+**assignment required** for the Microsoft Graph command-line first-party app.
+Your account must be assigned to that enterprise application by an admin, or
+you must use a different client ID/app registration. Move on to Path 2 or Path
+3.
+
 If you see `AADSTS65001` ("consent required" / "admin approval required") or
 `AADSTS90094`, your tenant's admin has disabled user consent for this scope
 set. Move on to Path 2.
@@ -71,22 +78,25 @@ re-run `prospectus auth login`.
   Prospectus Graphicus strictly uses today. If that matters for your
   posture, go to Path 3.
 
-## Path 2: Ask Pitt IT to consent
+## Path 2: Ask Pitt IT to consent or assign access
 
-If Path 1 fails with a consent error, contact CSSD. A short, specific
-request gets a much faster yes than "please register an app for me":
+If Path 1 fails with a consent or assignment error, contact CSSD. A short,
+specific request gets a much faster yes than "please register an app for me":
 
 > Hi — I'd like to sign in to Microsoft Graph from a personal CLI using my
 > Pitt account via the OAuth2 device code flow. I'm using the **Microsoft
-> Graph PowerShell** client ID (`14d82eec-204b-4c2f-b7e8-296a70dab67e`) with
-> delegated scopes `offline_access`, `User.Read`, `Mail.Read`,
-> `Mail.ReadWrite`, `Mail.Send`. Could you either
+> Graph PowerShell / Microsoft Graph Command Line Tools** client ID
+> (`14d82eec-204b-4c2f-b7e8-296a70dab67e`) with delegated scopes
+> `offline_access`, `User.Read`, `Mail.Read`, `Mail.ReadWrite`, `Mail.Send`.
+> I received `AADSTS50105`, which says users are blocked unless assigned
+> access. Could you either
 >
-> 1. grant admin consent on my account for those scopes, or
-> 2. enable user consent for apps from verified publishers?
+> 1. assign my account to that enterprise application,
+> 2. grant/admin-consent those delegated scopes for my account, or
+> 3. enable user consent for apps from verified publishers?
 >
-> No new app registration is needed; I'm only using Microsoft's own
-> first-party app.
+> No new app registration is needed for options 1–3; I'm only using
+> Microsoft's own first-party app.
 
 If they can enable **(2)**, you unlock a whole class of tools with one
 policy change.
@@ -129,6 +139,10 @@ or 2.
 
 ## Troubleshooting
 
+- **`AADSTS50105` / "users are blocked unless assigned access"** — your
+  tenant requires explicit assignment to the client application. Ask IT to
+  assign your account to the Microsoft Graph command-line enterprise app, try
+  another Microsoft first-party client ID, or register/use your own app.
 - **`AADSTS7000218` / "client_assertion or client_secret required"** —
   *Allow public client flows* isn't enabled on your Path 3 app registration.
 - **`AADSTS65001` / "consent required"** — the tenant requires admin consent

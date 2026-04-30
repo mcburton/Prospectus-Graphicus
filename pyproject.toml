@@ -1,0 +1,18 @@
+[project]
+name = "prospectus-graphicus"
+version = "0.1.0"
+description = "Prospectus Graphicus: a command-line instrument for handling Outlook's letters through the Microsoft Graph."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "keyring>=25",
+  "requests>=2.31",
+]
+
+[project.scripts]
+prospectus = "prospectus_graphicus.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
